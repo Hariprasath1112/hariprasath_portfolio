@@ -1,0 +1,1242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RestAltal — UX/UI Case Study</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --teal-dark:   #0b4f4f;
+    --teal-mid:    #1a7a7a;
+    --teal-light:  #2aa8a8;
+    --teal-pale:   #e6f4f4;
+    --teal-accent: #3dc9c9;
+    --white:       #ffffff;
+    --off-white:   #f7fafa;
+    --gray-100:    #f0f4f4;
+    --gray-200:    #dde7e7;
+    --gray-400:    #8fa8a8;
+    --gray-600:    #4a6060;
+    --gray-900:    #0f1f1f;
+    --gold:        #d4a847;
+    --gold-light:  #f0d078;
+    --red-soft:    #e05555;
+    --green-soft:  #34b87a;
+    --font-display: 'Playfair Display', Georgia, serif;
+    --font-body:    'DM Sans', sans-serif;
+    --font-mono:    'DM Mono', monospace;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--white);
+    color: var(--gray-900);
+    overflow-x: hidden;
+    line-height: 1.6;
+  }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--gray-100); }
+  ::-webkit-scrollbar-thumb { background: var(--teal-mid); border-radius: 3px; }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(11,79,79,0.96);
+    backdrop-filter: blur(12px);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 40px; height: 60px;
+    border-bottom: 1px solid rgba(61,201,201,0.15);
+  }
+  .nav-logo {
+    font-family: var(--font-display);
+    font-size: 1.2rem; font-weight: 700;
+    color: var(--teal-accent);
+    letter-spacing: 0.02em;
+  }
+  .nav-logo span { color: var(--white); }
+  .nav-links { display: flex; gap: 28px; list-style: none; }
+  .nav-links a {
+    font-size: 0.78rem; font-weight: 500; letter-spacing: 0.08em;
+    text-transform: uppercase; color: rgba(255,255,255,0.7);
+    text-decoration: none; transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--teal-accent); }
+  .nav-badge {
+    font-family: var(--font-mono);
+    font-size: 0.7rem; color: var(--teal-accent);
+    border: 1px solid rgba(61,201,201,0.4);
+    padding: 4px 12px; border-radius: 20px;
+    letter-spacing: 0.05em;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    background: var(--teal-dark);
+    position: relative; overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column; text-align: center;
+    padding: 100px 40px 60px;
+  }
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(61,201,201,0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(61,201,201,0.06) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+  .hero-glow {
+    position: absolute;
+    width: 700px; height: 700px;
+    background: radial-gradient(circle, rgba(42,168,168,0.18) 0%, transparent 70%);
+    top: 50%; left: 50%; transform: translate(-50%,-50%);
+    pointer-events: none;
+  }
+  .hero-tag {
+    font-family: var(--font-mono);
+    font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--teal-accent); border: 1px solid rgba(61,201,201,0.35);
+    padding: 6px 18px; border-radius: 30px;
+    margin-bottom: 28px; display: inline-block;
+    animation: fadeUp 0.8s ease both;
+  }
+  .hero h1 {
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 7vw, 6.5rem);
+    font-weight: 900; line-height: 1.0;
+    color: var(--white);
+    letter-spacing: -0.02em;
+    animation: fadeUp 0.9s 0.1s ease both;
+  }
+  .hero h1 em {
+    font-style: normal;
+    color: var(--teal-accent);
+  }
+  .hero-sub {
+    font-size: 1.1rem; color: rgba(255,255,255,0.6);
+    max-width: 560px; margin: 24px auto 0;
+    font-weight: 300; line-height: 1.7;
+    animation: fadeUp 1s 0.2s ease both;
+  }
+  .hero-meta {
+    display: flex; gap: 40px; margin-top: 60px; flex-wrap: wrap; justify-content: center;
+    animation: fadeUp 1s 0.35s ease both;
+  }
+  .hero-meta-item { text-align: center; }
+  .hero-meta-item .num {
+    font-family: var(--font-display);
+    font-size: 2.2rem; font-weight: 700;
+    color: var(--teal-accent); line-height: 1;
+  }
+  .hero-meta-item .label {
+    font-size: 0.75rem; color: rgba(255,255,255,0.5);
+    letter-spacing: 0.1em; text-transform: uppercase;
+    margin-top: 4px;
+  }
+  .hero-divider {
+    width: 1px; height: 50px;
+    background: rgba(61,201,201,0.25);
+    align-self: center;
+  }
+  .hero-scroll {
+    position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    color: rgba(255,255,255,0.35); font-size: 0.7rem; letter-spacing: 0.12em;
+    text-transform: uppercase; animation: fadeUp 1s 0.5s ease both;
+  }
+  .scroll-line {
+    width: 1px; height: 40px;
+    background: linear-gradient(to bottom, rgba(61,201,201,0.5), transparent);
+    animation: scrollAnim 2s ease-in-out infinite;
+  }
+  @keyframes scrollAnim {
+    0%,100% { transform: scaleY(1); opacity: 1; }
+    50% { transform: scaleY(0.6); opacity: 0.4; }
+  }
+
+  /* ── SECTION SHARED ── */
+  section { padding: 100px 40px; }
+  .container { max-width: 1100px; margin: 0 auto; }
+  .section-tag {
+    font-family: var(--font-mono);
+    font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--teal-mid); margin-bottom: 12px; display: block;
+  }
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    font-weight: 700; line-height: 1.15;
+    color: var(--gray-900); margin-bottom: 16px;
+  }
+  .section-title em { font-style: normal; color: var(--teal-mid); }
+  .section-desc {
+    font-size: 1rem; color: var(--gray-600);
+    max-width: 620px; line-height: 1.75;
+  }
+  .section-header { margin-bottom: 64px; }
+
+  /* ── OVERVIEW ── */
+  .overview { background: var(--off-white); }
+  .overview-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 1px; background: var(--gray-200);
+    border: 1px solid var(--gray-200);
+    border-radius: 16px; overflow: hidden;
+    margin-top: 48px;
+  }
+  .overview-cell {
+    background: var(--white);
+    padding: 32px 28px;
+  }
+  .overview-cell .oc-label {
+    font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--gray-400); margin-bottom: 10px;
+  }
+  .overview-cell .oc-value {
+    font-family: var(--font-display);
+    font-size: 1.1rem; font-weight: 600;
+    color: var(--gray-900); line-height: 1.4;
+  }
+  .overview-cell .oc-value.teal { color: var(--teal-mid); }
+
+  .overview-body {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 48px;
+    margin-top: 64px; align-items: start;
+  }
+  .overview-text p {
+    font-size: 1rem; color: var(--gray-600);
+    line-height: 1.8; margin-bottom: 20px;
+  }
+  .overview-text p strong { color: var(--gray-900); }
+  .challenge-list { list-style: none; margin-top: 8px; }
+  .challenge-list li {
+    display: flex; align-items: flex-start; gap: 12px;
+    font-size: 0.95rem; color: var(--gray-600);
+    padding: 12px 0; border-bottom: 1px solid var(--gray-100);
+    line-height: 1.6;
+  }
+  .challenge-list li:last-child { border-bottom: none; }
+  .bullet {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--teal-mid); flex-shrink: 0; margin-top: 7px;
+  }
+  .bullet.gold { background: var(--gold); }
+  .bullet.red  { background: var(--red-soft); }
+  .bullet.green { background: var(--green-soft); }
+
+  /* ── DESIGN SYSTEM ── */
+  .design-system { background: var(--white); }
+  .ds-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+
+  /* Color palette */
+  .ds-card {
+    border: 1px solid var(--gray-200);
+    border-radius: 16px; overflow: hidden;
+  }
+  .ds-card-head {
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--gray-100);
+    font-size: 0.78rem; font-weight: 600; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--gray-600);
+  }
+  .ds-card-body { padding: 24px; }
+
+  .color-row { display: flex; gap: 10px; flex-wrap: wrap; }
+  .color-swatch {
+    flex: 1; min-width: 70px;
+    border-radius: 10px; overflow: hidden;
+    border: 1px solid rgba(0,0,0,0.06);
+  }
+  .swatch-block { height: 56px; }
+  .swatch-info { padding: 8px 10px; background: var(--white); }
+  .swatch-name { font-size: 0.72rem; font-weight: 600; color: var(--gray-900); }
+  .swatch-hex  { font-family: var(--font-mono); font-size: 0.65rem; color: var(--gray-400); }
+
+  /* Typography */
+  .type-specimen { display: flex; flex-direction: column; gap: 20px; }
+  .type-item { border-bottom: 1px solid var(--gray-100); padding-bottom: 20px; }
+  .type-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .type-sample { line-height: 1.2; margin-bottom: 6px; }
+  .type-meta { font-family: var(--font-mono); font-size: 0.65rem; color: var(--gray-400); }
+
+  /* ── PAGE ANALYSIS ── */
+  .pages { background: var(--gray-100); }
+
+  .page-block {
+    background: var(--white);
+    border-radius: 20px; overflow: hidden;
+    border: 1px solid var(--gray-200);
+    margin-bottom: 40px;
+  }
+  .page-block-header {
+    background: var(--teal-dark);
+    padding: 28px 36px;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 16px;
+  }
+  .page-block-header h3 {
+    font-family: var(--font-display);
+    font-size: 1.4rem; font-weight: 700; color: var(--white);
+  }
+  .page-block-header p {
+    font-size: 0.88rem; color: rgba(255,255,255,0.6);
+    margin-top: 4px; font-weight: 300;
+  }
+  .page-block-header .pb-tag {
+    font-family: var(--font-mono);
+    font-size: 0.7rem; color: var(--teal-accent);
+    border: 1px solid rgba(61,201,201,0.35);
+    padding: 5px 14px; border-radius: 20px;
+    white-space: nowrap;
+  }
+  .page-block-content { padding: 36px; }
+  .page-block-content p {
+    font-size: 0.97rem; color: var(--gray-600); line-height: 1.8;
+    margin-bottom: 16px;
+  }
+  .page-block-content p:last-child { margin-bottom: 0; }
+  .page-block-content strong { color: var(--gray-900); }
+
+  .feature-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+    margin-top: 24px;
+  }
+  .feature-pill {
+    background: var(--teal-pale);
+    border: 1px solid var(--gray-200);
+    border-radius: 10px; padding: 14px 16px;
+  }
+  .feature-pill .fp-icon {
+    font-size: 1.2rem; margin-bottom: 8px;
+  }
+  .feature-pill .fp-title {
+    font-size: 0.82rem; font-weight: 600; color: var(--gray-900);
+    margin-bottom: 4px;
+  }
+  .feature-pill .fp-desc {
+    font-size: 0.75rem; color: var(--gray-600); line-height: 1.5;
+  }
+
+  .flow-steps {
+    display: flex; gap: 0; margin-top: 24px; overflow: hidden;
+    border-radius: 12px; border: 1px solid var(--gray-200);
+  }
+  .flow-step {
+    flex: 1; padding: 20px 18px;
+    background: var(--white);
+    border-right: 1px solid var(--gray-200);
+    position: relative;
+  }
+  .flow-step:last-child { border-right: none; }
+  .flow-step::after {
+    content: '→';
+    position: absolute; right: -8px; top: 50%; transform: translateY(-50%);
+    color: var(--teal-light); font-size: 1rem; z-index: 1;
+  }
+  .flow-step:last-child::after { display: none; }
+  .step-num {
+    font-family: var(--font-mono);
+    font-size: 0.65rem; color: var(--teal-mid);
+    letter-spacing: 0.1em; margin-bottom: 6px;
+  }
+  .step-title {
+    font-size: 0.82rem; font-weight: 600; color: var(--gray-900);
+    margin-bottom: 4px;
+  }
+  .step-desc { font-size: 0.73rem; color: var(--gray-600); line-height: 1.4; }
+
+  /* ── INSIGHTS ── */
+  .insights { background: var(--white); }
+  .insights-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; }
+  .insight-card {
+    border-radius: 16px; padding: 28px 24px;
+    position: relative; overflow: hidden;
+  }
+  .insight-card.teal-card { background: var(--teal-dark); }
+  .insight-card.gray-card { background: var(--gray-100); border: 1px solid var(--gray-200); }
+  .insight-card.gold-card { background: #fdf8ec; border: 1px solid #f0d888; }
+  .ic-tag {
+    font-family: var(--font-mono);
+    font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase;
+    margin-bottom: 16px; display: block;
+  }
+  .teal-card .ic-tag { color: var(--teal-accent); }
+  .gray-card  .ic-tag { color: var(--gray-400); }
+  .gold-card  .ic-tag { color: var(--gold); }
+  .ic-title {
+    font-family: var(--font-display);
+    font-size: 1.15rem; font-weight: 700; line-height: 1.3;
+    margin-bottom: 12px;
+  }
+  .teal-card .ic-title { color: var(--white); }
+  .gray-card  .ic-title, .gold-card .ic-title { color: var(--gray-900); }
+  .ic-body { font-size: 0.88rem; line-height: 1.7; }
+  .teal-card .ic-body { color: rgba(255,255,255,0.65); }
+  .gray-card  .ic-body, .gold-card .ic-body { color: var(--gray-600); }
+
+  /* ── CRM & SELLER ── */
+  .crm { background: var(--off-white); }
+  .crm-split { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
+  .crm-metric-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 24px; }
+  .crm-metric {
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: 12px; padding: 20px;
+    text-align: center;
+  }
+  .crm-metric .m-val {
+    font-family: var(--font-display);
+    font-size: 1.8rem; font-weight: 700;
+    color: var(--teal-mid); line-height: 1;
+  }
+  .crm-metric .m-val.gold { color: var(--gold); }
+  .crm-metric .m-label {
+    font-size: 0.72rem; color: var(--gray-400);
+    letter-spacing: 0.08em; text-transform: uppercase;
+    margin-top: 6px;
+  }
+
+  /* ── STATS BANNER ── */
+  .stats-banner {
+    background: var(--teal-dark);
+    padding: 80px 40px; text-align: center;
+  }
+  .stats-row {
+    display: flex; justify-content: center; gap: 80px;
+    flex-wrap: wrap; max-width: 900px; margin: 0 auto;
+  }
+  .stat-item .si-num {
+    font-family: var(--font-display);
+    font-size: 3.5rem; font-weight: 900;
+    color: var(--teal-accent); line-height: 1;
+  }
+  .stat-item .si-label {
+    font-size: 0.8rem; color: rgba(255,255,255,0.5);
+    letter-spacing: 0.1em; text-transform: uppercase;
+    margin-top: 8px;
+  }
+  .stat-divider {
+    width: 1px; background: rgba(255,255,255,0.1);
+    align-self: stretch;
+  }
+
+  /* ── UX PATTERNS ── */
+  .ux-patterns { background: var(--white); }
+  .patterns-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .pattern-card {
+    border: 1px solid var(--gray-200);
+    border-radius: 16px; padding: 28px;
+    transition: border-color 0.25s, box-shadow 0.25s;
+  }
+  .pattern-card:hover {
+    border-color: var(--teal-light);
+    box-shadow: 0 8px 32px rgba(26,122,122,0.08);
+  }
+  .pc-icon {
+    width: 44px; height: 44px; border-radius: 10px;
+    background: var(--teal-pale);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem; margin-bottom: 16px;
+    border: 1px solid var(--gray-200);
+  }
+  .pc-title {
+    font-size: 1rem; font-weight: 600; color: var(--gray-900);
+    margin-bottom: 10px;
+  }
+  .pc-body { font-size: 0.88rem; color: var(--gray-600); line-height: 1.7; }
+
+  /* ── RECOMMENDATIONS ── */
+  .recommendations { background: var(--gray-100); }
+  .reco-list { display: flex; flex-direction: column; gap: 16px; margin-top: 0; }
+  .reco-item {
+    background: var(--white);
+    border-radius: 14px; padding: 24px 28px;
+    display: flex; align-items: flex-start; gap: 20px;
+    border: 1px solid var(--gray-200);
+    border-left: 4px solid var(--teal-mid);
+  }
+  .reco-item.gold-border { border-left-color: var(--gold); }
+  .reco-item.red-border  { border-left-color: var(--red-soft); }
+  .reco-item.green-border { border-left-color: var(--green-soft); }
+  .reco-num {
+    font-family: var(--font-mono);
+    font-size: 0.65rem; color: var(--teal-mid);
+    min-width: 26px; margin-top: 2px;
+  }
+  .reco-item.gold-border  .reco-num { color: var(--gold); }
+  .reco-item.red-border   .reco-num { color: var(--red-soft); }
+  .reco-item.green-border .reco-num { color: var(--green-soft); }
+  .reco-body h4 {
+    font-size: 0.95rem; font-weight: 600; color: var(--gray-900);
+    margin-bottom: 6px;
+  }
+  .reco-body p { font-size: 0.88rem; color: var(--gray-600); line-height: 1.7; }
+
+  .reco-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--gray-900);
+    padding: 60px 40px;
+    text-align: center;
+  }
+  .footer-logo {
+    font-family: var(--font-display);
+    font-size: 2rem; font-weight: 900;
+    color: var(--teal-accent); margin-bottom: 12px;
+  }
+  .footer-tagline {
+    font-size: 0.88rem; color: rgba(255,255,255,0.4);
+    letter-spacing: 0.08em; margin-bottom: 32px;
+  }
+  .footer-divider {
+    width: 60px; height: 2px;
+    background: var(--teal-mid);
+    margin: 0 auto 32px;
+  }
+  .footer-credit {
+    font-family: var(--font-mono);
+    font-size: 0.7rem; color: rgba(255,255,255,0.25);
+    letter-spacing: 0.08em;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .reveal {
+    opacity: 0; transform: translateY(28px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav { padding: 0 20px; }
+    .nav-links { display: none; }
+    section { padding: 70px 24px; }
+    .overview-grid { grid-template-columns: 1fr 1fr; }
+    .overview-body  { grid-template-columns: 1fr; gap: 32px; }
+    .ds-grid        { grid-template-columns: 1fr; }
+    .feature-grid   { grid-template-columns: 1fr 1fr; }
+    .flow-steps     { flex-direction: column; }
+    .flow-step::after { display: none; }
+    .insights-grid  { grid-template-columns: 1fr; }
+    .crm-split      { grid-template-columns: 1fr; }
+    .patterns-grid  { grid-template-columns: 1fr; }
+    .reco-grid      { grid-template-columns: 1fr; }
+    .stats-row      { gap: 40px; }
+    .stat-divider   { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <div class="nav-logo">Rest<span>Altal</span></div>
+  <ul class="nav-links">
+    <li><a href="#overview">Overview</a></li>
+    <li><a href="#design-system">Design System</a></li>
+    <li><a href="#pages">Page Analysis</a></li>
+    <li><a href="#crm">CRM</a></li>
+    <li><a href="#recommendations">Insights</a></li>
+  </ul>
+  <div class="nav-badge">UI/UX Case Study</div>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="hero" id="top">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-tag">UI / UX Case Study · 2024</div>
+  <h1>Rest<em>Altal</em></h1>
+  <p class="hero-sub">A deep-dive into India's AI-powered real estate platform — design system, user flows, CRM architecture, and product experience.</p>
+  <div class="hero-meta">
+    <div class="hero-meta-item">
+      <div class="num">50K+</div>
+      <div class="label">Properties Listed</div>
+    </div>
+    <div class="hero-divider"></div>
+    <div class="hero-meta-item">
+      <div class="num">15K+</div>
+      <div class="label">Happy Customers</div>
+    </div>
+    <div class="hero-divider"></div>
+    <div class="hero-meta-item">
+      <div class="num">500+</div>
+      <div class="label">Cities Covered</div>
+    </div>
+    <div class="hero-divider"></div>
+    <div class="hero-meta-item">
+      <div class="num">99%</div>
+      <div class="label">Customer Satisfaction</div>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ── PROJECT OVERVIEW ── -->
+<section class="overview" id="overview">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-tag">01 · Project Overview</span>
+      <h2 class="section-title">What is <em>RestAltal</em>?</h2>
+      <p class="section-desc">RestAltal is India's most trusted AI-powered real estate platform, enabling users to buy, sell, and rent properties seamlessly across 500+ cities with verified listings, market insights, and integrated CRM tools.</p>
+    </div>
+
+    <div class="overview-grid reveal">
+      <div class="overview-cell">
+        <div class="oc-label">Platform Type</div>
+        <div class="oc-value teal">Real Estate Marketplace + CRM</div>
+      </div>
+      <div class="overview-cell">
+        <div class="oc-label">Target Market</div>
+        <div class="oc-value">India (Pan-India, 500+ Cities)</div>
+      </div>
+      <div class="overview-cell">
+        <div class="oc-label">Core Users</div>
+        <div class="oc-value">Buyers · Sellers · Renters · Agents</div>
+      </div>
+      <div class="overview-cell">
+        <div class="oc-label">Key Differentiator</div>
+        <div class="oc-value teal">AI-Powered Search & Market Analysis</div>
+      </div>
+    </div>
+
+    <div class="overview-body">
+      <div class="overview-text reveal">
+        <p>RestAltal positions itself as the <strong>#1 Trusted Real Estate Platform in India</strong>, combining a consumer-facing marketplace with professional CRM tools for real estate agents. The platform covers the full property lifecycle — from search and discovery to listing, negotiation, and closing.</p>
+        <p>The design language reflects <strong>trust, clarity, and technology</strong>. A deep teal color palette communicates professionalism and dependability, while AI-driven features (price recommendations, listing optimization, portfolio analysis) add a modern, forward-thinking edge that distinguishes RestAltal from legacy real estate portals.</p>
+        <p>The product serves <strong>four distinct user personas</strong>: property seekers (buy), tenants (rent), property owners (sell/list), and real estate agents (CRM). Each persona gets a tailored flow, yet the unified design system creates a coherent brand experience throughout.</p>
+      </div>
+      <div class="reveal">
+        <span class="section-tag" style="margin-bottom:16px;">Core Problems Solved</span>
+        <ul class="challenge-list">
+          <li><div class="bullet"></div>Fragmented property discovery with unreliable listings and poor filtering</li>
+          <li><div class="bullet gold"></div>Lack of transparent pricing data and real-time market insights</li>
+          <li><div class="bullet red"></div>Complex, multi-step property listing process without guidance</li>
+          <li><div class="bullet green"></div>Disconnected lead management for agents — no unified CRM view</li>
+          <li><div class="bullet"></div>Absence of AI-assisted decision-making for buyers, sellers, and agents</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── DESIGN SYSTEM ── -->
+<section class="design-system" id="design-system">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-tag">02 · Design System</span>
+      <h2 class="section-title">Visual Language &amp; <em>Style Guide</em></h2>
+      <p class="section-desc">RestAltal's design system is built on a teal-dominant palette conveying trust and calm authority, paired with clean typography that balances professionalism with approachability.</p>
+    </div>
+
+    <div class="ds-grid">
+      <!-- Colour Palette -->
+      <div class="ds-card reveal">
+        <div class="ds-card-head">Colour Palette</div>
+        <div class="ds-card-body">
+          <div class="color-row">
+            <div class="color-swatch">
+              <div class="swatch-block" style="background:#0b4f4f;"></div>
+              <div class="swatch-info">
+                <div class="swatch-name">Teal Dark</div>
+                <div class="swatch-hex">#0b4f4f</div>
+              </div>
+            </div>
+            <div class="color-swatch">
+              <div class="swatch-block" style="background:#1a7a7a;"></div>
+              <div class="swatch-info">
+                <div class="swatch-name">Teal Primary</div>
+                <div class="swatch-hex">#1a7a7a</div>
+              </div>
+            </div>
+            <div class="color-swatch">
+              <div class="swatch-block" style="background:#2aa8a8;"></div>
+              <div class="swatch-info">
+                <div class="swatch-name">Teal Mid</div>
+                <div class="swatch-hex">#2aa8a8</div>
+              </div>
+            </div>
+            <div class="color-swatch">
+              <div class="swatch-block" style="background:#3dc9c9;"></div>
+              <div class="swatch-info">
+                <div class="swatch-name">Teal Accent</div>
+                <div class="swatch-hex">#3dc9c9</div>
+              </div>
+            </div>
+            <div class="color-swatch">
+              <div class="swatch-block" style="background:#e6f4f4; border:1px solid #dde7e7;"></div>
+              <div class="swatch-info">
+                <div class="swatch-name">Teal Pale</div>
+                <div class="swatch-hex">#e6f4f4</div>
+              </div>
+            </div>
+          </div>
+          <div class="color-row" style="margin-top:12px;">
+            <div class="color-swatch">
+              <div class="swatch-block" style="background:#ffffff; border:1px solid #eee;"></div>
+              <div class="swatch-info">
+                <div class="swatch-name">White</div>
+                <div class="swatch-hex">#ffffff</div>
+              </div>
+            </div>
+            <div class="color-swatch">
+              <div class="swatch-block" style="background:#f0f4f4;"></div>
+              <div class="swatch-info">
+                <div class="swatch-name">Gray 100</div>
+                <div class="swatch-hex">#f0f4f4</div>
+              </div>
+            </div>
+            <div class="color-swatch">
+              <div class="swatch-block" style="background:#4a6060;"></div>
+              <div class="swatch-info">
+                <div class="swatch-name">Gray 600</div>
+                <div class="swatch-hex">#4a6060</div>
+              </div>
+            </div>
+            <div class="color-swatch">
+              <div class="swatch-block" style="background:#0f1f1f;"></div>
+              <div class="swatch-info">
+                <div class="swatch-name">Gray 900</div>
+                <div class="swatch-hex">#0f1f1f</div>
+              </div>
+            </div>
+            <div class="color-swatch">
+              <div class="swatch-block" style="background:#d4a847;"></div>
+              <div class="swatch-info">
+                <div class="swatch-name">Gold Accent</div>
+                <div class="swatch-hex">#d4a847</div>
+              </div>
+            </div>
+          </div>
+          <p style="font-size:0.8rem;color:var(--gray-400);margin-top:16px;line-height:1.6;">The palette is anchored by a deep teal range that evokes <strong style="color:var(--gray-600);">trust, stability, and clarity</strong> — key emotional cues in real estate. Teal Accent (#3dc9c9) is used for CTAs, highlights, and active states. Gold is reserved for premium or AI-generated content to signal value.</p>
+        </div>
+      </div>
+
+      <!-- Typography -->
+      <div class="ds-card reveal">
+        <div class="ds-card-head">Typography System</div>
+        <div class="ds-card-body">
+          <div class="type-specimen">
+            <div class="type-item">
+              <div class="type-sample" style="font-family:'Playfair Display',serif; font-size:2.2rem; font-weight:900; color:var(--gray-900); line-height:1.1;">Find Your Perfect Home</div>
+              <div class="type-meta">Playfair Display · 900 · Hero Headlines</div>
+            </div>
+            <div class="type-item">
+              <div class="type-sample" style="font-family:'Playfair Display',serif; font-size:1.4rem; font-weight:700; color:var(--gray-900);">Section Title / Card Heading</div>
+              <div class="type-meta">Playfair Display · 700 · Subheadings</div>
+            </div>
+            <div class="type-item">
+              <div class="type-sample" style="font-family:'DM Sans',sans-serif; font-size:1rem; font-weight:400; color:var(--gray-600);">Discover thousands of properties across India with our AI-powered search platform.</div>
+              <div class="type-meta">DM Sans · 400 · Body Text</div>
+            </div>
+            <div class="type-item">
+              <div class="type-sample" style="font-family:'DM Sans',sans-serif; font-size:0.88rem; font-weight:600; color:var(--gray-900);">₹1,20,000 / month · 3 Bed · 2 Bath</div>
+              <div class="type-meta">DM Sans · 600 · Price / Property Details</div>
+            </div>
+            <div class="type-item">
+              <div class="type-sample" style="font-family:'DM Mono',monospace; font-size:0.75rem; color:var(--teal-mid); letter-spacing:0.1em; text-transform:uppercase;">PAGE · 01 · OVERVIEW</div>
+              <div class="type-meta">DM Mono · 400 · Labels, Tags, Metadata</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- UI Components -->
+      <div class="ds-card reveal">
+        <div class="ds-card-head">Button & Component System</div>
+        <div class="ds-card-body">
+          <div style="display:flex; flex-wrap:wrap; gap:12px; margin-bottom:20px; align-items:center;">
+            <button style="background:var(--teal-mid); color:#fff; border:none; padding:11px 24px; border-radius:8px; font-family:var(--font-body); font-size:0.88rem; font-weight:600; cursor:pointer;">Start Your Search</button>
+            <button style="background:transparent; color:var(--teal-mid); border:2px solid var(--teal-mid); padding:9px 22px; border-radius:8px; font-family:var(--font-body); font-size:0.88rem; font-weight:600; cursor:pointer;">Learn More</button>
+            <button style="background:var(--teal-dark); color:#fff; border:none; padding:11px 24px; border-radius:8px; font-family:var(--font-body); font-size:0.88rem; font-weight:600; cursor:pointer;">Login to Continue</button>
+            <span style="background:var(--teal-pale); color:var(--teal-dark); font-size:0.72rem; font-weight:600; padding:4px 12px; border-radius:20px; border:1px solid var(--gray-200);">For Sale</span>
+            <span style="background:#fff3e0; color:#b06000; font-size:0.72rem; font-weight:600; padding:4px 12px; border-radius:20px; border:1px solid #ffe0b2;">For Rent</span>
+            <span style="background:#e8f5e9; color:#2e7d32; font-size:0.72rem; font-weight:600; padding:4px 12px; border-radius:20px; border:1px solid #c8e6c9;">Verified</span>
+          </div>
+          <p style="font-size:0.8rem;color:var(--gray-400);line-height:1.6;">Buttons use 8px border-radius for a friendly-yet-professional feel. The primary CTA uses Teal Mid — always commanding attention without aggression. Status badges (For Sale / For Rent) use soft backgrounds for quick scanability in property cards.</p>
+        </div>
+      </div>
+
+      <!-- Spacing & Layout -->
+      <div class="ds-card reveal">
+        <div class="ds-card-head">Layout & Grid System</div>
+        <div class="ds-card-body">
+          <div style="display:flex; flex-direction:column; gap:12px; margin-bottom:20px;">
+            <div style="display:flex; align-items:center; gap:12px;">
+              <div style="width:4px; height:32px; background:var(--teal-mid); border-radius:2px;"></div>
+              <div>
+                <div style="font-size:0.8rem; font-weight:600; color:var(--gray-900);">Navigation</div>
+                <div style="font-family:var(--font-mono); font-size:0.7rem; color:var(--gray-400);">Fixed · 60px height · Teal Dark bg · Blur backdrop</div>
+              </div>
+            </div>
+            <div style="display:flex; align-items:center; gap:12px;">
+              <div style="width:4px; height:32px; background:var(--teal-light); border-radius:2px;"></div>
+              <div>
+                <div style="font-size:0.8rem; font-weight:600; color:var(--gray-900);">Property Card Grid</div>
+                <div style="font-family:var(--font-mono); font-size:0.7rem; color:var(--gray-400);">3-column masonry · Gap 24px · Rounded 12px · Shadow on hover</div>
+              </div>
+            </div>
+            <div style="display:flex; align-items:center; gap:12px;">
+              <div style="width:4px; height:32px; background:var(--teal-accent); border-radius:2px;"></div>
+              <div>
+                <div style="font-size:0.8rem; font-weight:600; color:var(--gray-900);">Sidebar Filters</div>
+                <div style="font-family:var(--font-mono); font-size:0.7rem; color:var(--gray-400);">250px fixed · Collapsible panels · Checkbox + range sliders</div>
+              </div>
+            </div>
+            <div style="display:flex; align-items:center; gap:12px;">
+              <div style="width:4px; height:32px; background:var(--gold); border-radius:2px;"></div>
+              <div>
+                <div style="font-size:0.8rem; font-weight:600; color:var(--gray-900);">Multi-Step Wizard</div>
+                <div style="font-family:var(--font-mono); font-size:0.7rem; color:var(--gray-400);">Step progress indicator · Card container · Centered 560px</div>
+              </div>
+            </div>
+            <div style="display:flex; align-items:center; gap:12px;">
+              <div style="width:4px; height:32px; background:var(--gray-600); border-radius:2px;"></div>
+              <div>
+                <div style="font-size:0.8rem; font-weight:600; color:var(--gray-900);">Footer</div>
+                <div style="font-family:var(--font-mono); font-size:0.7rem; color:var(--gray-400);">4-column layout · Teal Dark · Logo + Links + Services + Contact</div>
+              </div>
+            </div>
+          </div>
+          <p style="font-size:0.8rem;color:var(--gray-400);line-height:1.6;">The layout uses a consistent 40px outer padding, max-width containers (~1200px), and a clear visual hierarchy using background alternation (white ↔ off-white ↔ teal-dark) to create rhythm across pages.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── STATS BANNER ── -->
+<div class="stats-banner">
+  <div class="stats-row reveal">
+    <div class="stat-item">
+      <div class="si-num">50K+</div>
+      <div class="si-label">Properties Listed</div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <div class="si-num">15K+</div>
+      <div class="si-label">Happy Customers</div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <div class="si-num">500+</div>
+      <div class="si-label">Cities Covered</div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <div class="si-num">99%</div>
+      <div class="si-label">Satisfaction Rate</div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <div class="si-num">₹2.5Cr</div>
+      <div class="si-label">Revenue Generated (Q1)</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── PAGE-BY-PAGE ANALYSIS ── -->
+<section class="pages" id="pages">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-tag">03 · Page Analysis</span>
+      <h2 class="section-title">Screen-by-Screen <em>Breakdown</em></h2>
+      <p class="section-desc">A thorough analysis of every screen in the RestAltal platform — from the homepage hero to the CRM dashboard — examining UX decisions, interaction patterns, and design rationale.</p>
+    </div>
+
+    <!-- Page 1: Homepage -->
+    <div class="page-block reveal">
+      <div class="page-block-header">
+        <div>
+          <h3>Homepage — Landing Experience</h3>
+          <p>First impression, value proposition, and primary conversion entry points</p>
+        </div>
+        <span class="pb-tag">Screen 01</span>
+      </div>
+      <div class="page-block-content">
+        <p>The homepage opens with a <strong>hero section featuring a full-width property background image</strong>, immediately establishing visual context. The headline "Find Your Perfect Home Today" is direct and action-oriented, supported by a concise subtext articulating the AI-powered value proposition. A prominent location search bar sits centrally — the primary CTA — flanked by three quick-action buttons: Buy Property, Rent Property, and Sell Property, immediately mapping to the three core user journeys.</p>
+        <p>The stats row (50K+ Properties · 15K+ Customers · 500+ Cities) builds immediate <strong>social proof and platform credibility</strong> before the user scrolls. This is critical in a trust-dependent domain like real estate.</p>
+        <p>Below the fold, a <strong>6-feature grid</strong> (AI Search, Verified Listings, Market Insights, Expert Support, Location Intelligence, Finance Tools) communicates the platform's full breadth without overwhelming. Each feature uses a teal icon, short title, and 2-line description — scannable and efficient.</p>
+        <div class="feature-grid">
+          <div class="feature-pill"><div class="fp-icon">🔍</div><div class="fp-title">AI-Powered Search</div><div class="fp-desc">Intelligent algorithm learning user preferences over time</div></div>
+          <div class="feature-pill"><div class="fp-icon">✅</div><div class="fp-title">Verified Listings</div><div class="fp-desc">Every property verified by the team for accuracy</div></div>
+          <div class="feature-pill"><div class="fp-icon">📊</div><div class="fp-title">Market Insights</div><div class="fp-desc">Real-time valuations powered by AI analytics</div></div>
+          <div class="feature-pill"><div class="fp-icon">👨‍💼</div><div class="fp-title">Expert Support</div><div class="fp-desc">Certified real estate experts for personalized guidance</div></div>
+          <div class="feature-pill"><div class="fp-icon">📍</div><div class="fp-title">Location Intelligence</div><div class="fp-desc">Neighborhood insights, amenities, connectivity info</div></div>
+          <div class="feature-pill"><div class="fp-icon">💰</div><div class="fp-title">Finance Tools</div><div class="fp-desc">EMI calculator, loan comparison, mortgage pre-approval</div></div>
+        </div>
+        <p style="margin-top:20px;">The <strong>AI-Recommended Properties section</strong> showcases 6 featured listings in a 3-column card grid — balancing For Sale and For Rent options with price, location, bedroom/bathroom counts, and size clearly visible. The "View All Properties" CTA creates a natural next step.</p>
+      </div>
+    </div>
+
+    <!-- Page 2: Buy -->
+    <div class="page-block reveal">
+      <div class="page-block-header">
+        <div>
+          <h3>Properties for Sale — Buy Page</h3>
+          <p>Filterable property listings with sort, search, and sidebar navigation</p>
+        </div>
+        <span class="pb-tag">Screen 02</span>
+      </div>
+      <div class="page-block-content">
+        <p>The Buy page uses a <strong>two-column layout: left sidebar filters + main content grid</strong>. The sidebar houses: Listing Type toggle (For Sale / For Rent), Location input, Property Type dropdown, Price Range slider (₹0 to ₹2M+), Bedroom count selector, Bathroom selector, and a Pet Friendly toggle. This comprehensive filter set allows precise property discovery without clutter.</p>
+        <p>The header includes a <strong>Buy/Rent tab toggle</strong> for seamless mode switching, a text search field ("Search by location, property type, or features…"), and a sort dropdown (Newest First / Price: Low to High / Price: High to Low). This combination gives experienced users powerful control while keeping the interface approachable for first-time buyers.</p>
+        <p>The <strong>property cards</strong> display: price (prominent, top-left), property name, address, bed/bath/sqft row, feature tags (e.g., pool, garden view, modern kitchen), and a "View All Properties" link. The consistent card structure ensures rapid visual scanning across listings. Properties shown include a range from ₹45K (Urban Apartment) to ₹213.1M (Luxury Estate) — demonstrating segment breadth.</p>
+      </div>
+    </div>
+
+    <!-- Page 3: Rent -->
+    <div class="page-block reveal">
+      <div class="page-block-header">
+        <div>
+          <h3>Properties for Rent — Rent Page</h3>
+          <p>Rental listings with monthly pricing, identical filter architecture to Buy</p>
+        </div>
+        <span class="pb-tag">Screen 03</span>
+      </div>
+      <div class="page-block-content">
+        <p>The Rent page mirrors the Buy page layout precisely, demonstrating a <strong>shared component architecture</strong> that reduces cognitive load — users switching between buy and rent modes encounter no structural surprises. The key difference is pricing display: monthly amounts (₹/month) replace lump-sum sale prices.</p>
+        <p>Rental listings shown span: ₹12.3M/month (Luxury High-Rise · Downtown Business District · 1 Bed · 2,342 sqft), ₹2K/month (Cozy Studio · Boston · 450 sqft), and ₹4K/month (Suburban Family Home · 4 Bed · 2,400 sqft). This range covers student housing through premium rentals, ensuring broad audience relevance.</p>
+        <p>The <strong>amenity tags</strong> on rental cards (Sky Lounge, Concierge Service, Murphy Bed, Large Backyard, Two-Car Garage) provide at-a-glance lifestyle differentiation — a key decision factor for renters that goes beyond size and price.</p>
+      </div>
+    </div>
+
+    <!-- Page 4: Auth -->
+    <div class="page-block reveal">
+      <div class="page-block-header">
+        <div>
+          <h3>Authentication — Login & Sign Up</h3>
+          <p>Clean gated entry point for property listing and seller dashboard access</p>
+        </div>
+        <span class="pb-tag">Screen 04</span>
+      </div>
+      <div class="page-block-content">
+        <p>The authentication screens follow a <strong>minimal modal-style design</strong> with the RestAltal branding centered. The Login screen features Email + Password fields with a single Login CTA. The Sign Up screen adds a Confirm Password field. Both screens include a Sign In / Sign Up tab toggle for frictionless switching.</p>
+        <p>Notably, the <strong>sell flow gates listing at the auth stage</strong> with a "Login Required – Please log in to list your property" screen, which communicates the requirement clearly before asking for credentials. This reduces drop-off caused by unexpected interruptions mid-flow.</p>
+        <p>The auth design is intentionally <strong>stripped of distractions</strong> — no sidebar, no navigation links, no promotional content. The focus is entirely on conversion. The RestAltal logo and brand color at the top reinforces trust during a moment of potential hesitation.</p>
+      </div>
+    </div>
+
+    <!-- Page 5: List Property -->
+    <div class="page-block reveal">
+      <div class="page-block-header">
+        <div>
+          <h3>List Your Property — 4-Step Wizard</h3>
+          <p>AI-optimized listing flow with step-by-step property submission</p>
+        </div>
+        <span class="pb-tag">Screen 05</span>
+      </div>
+      <div class="page-block-content">
+        <p>The property listing flow is structured as a <strong>4-step progressive wizard</strong>: Step 1 (Basic Info) → Step 2 (Property Details) → Step 3 (Description & Images) → Step 4 (Review & Publish). A numbered step indicator at the top provides orientation and progress feedback throughout the flow.</p>
+        <div class="flow-steps">
+          <div class="flow-step"><div class="step-num">STEP 01</div><div class="step-title">Basic Info</div><div class="step-desc">Title, Type, Price, Address, City, State, Zip</div></div>
+          <div class="flow-step"><div class="step-num">STEP 02</div><div class="step-title">Property Details</div><div class="step-desc">Beds, Baths, Sqft, Year Built, Parking, Energy Rating, Pets</div></div>
+          <div class="flow-step"><div class="step-num">STEP 03</div><div class="step-title">Description & Images</div><div class="step-desc">AI-generated description + drag-and-drop image upload</div></div>
+          <div class="flow-step"><div class="step-num">STEP 04</div><div class="step-title">Review & Publish</div><div class="step-desc">AI market analysis + listing summary + publish</div></div>
+        </div>
+        <p style="margin-top:20px;"><strong>Step 2</strong> introduces an Energy Rating selector (A Excellent → E Poor) — a forward-thinking feature addressing eco-conscious buyers. The Features & Amenities field accepts custom tags, giving sellers granular control over highlights.</p>
+        <p><strong>Step 3</strong> features a "Generate with AI" button for property descriptions — a killer feature that lowers the writing barrier for non-professional sellers. Image upload uses drag-and-drop UX with a clear file browser fallback.</p>
+        <p><strong>Step 4</strong> delivers the AI Market Analysis panel — providing Price Recommendations, Unique Selling Points, Marketing Strategy, and Target Buyer profiling. This transforms a listing submission into an <strong>intelligent advisory experience</strong>, adding tremendous value beyond mere form submission.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── CRM ── -->
+<section class="crm" id="crm">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-tag">04 · Seller & CRM Dashboard</span>
+      <h2 class="section-title">Agent Tools &amp; <em>Portfolio Management</em></h2>
+      <p class="section-desc">RestAltal's CRM suite transforms the platform from a simple marketplace into a comprehensive real estate business tool — giving agents a 360° view of their portfolio, leads, and performance.</p>
+    </div>
+
+    <div class="crm-split">
+      <div class="reveal">
+        <h3 style="font-family:var(--font-display); font-size:1.4rem; font-weight:700; color:var(--gray-900); margin-bottom:16px;">Seller Dashboard</h3>
+        <p style="font-size:0.97rem; color:var(--gray-600); line-height:1.8; margin-bottom:16px;">The Seller Dashboard ("Welcome back, HPC") provides a bird's-eye view of the user's property portfolio. Four metric tiles dominate the header: <strong>Total Properties (2), Total Portfolio Value (₹812K), Total Inquiries (0), and Conversion Rate (0.00)</strong>. This instant performance snapshot answers "how am I doing?" without any clicking.</p>
+        <p style="font-size:0.97rem; color:var(--gray-600); line-height:1.8; margin-bottom:16px;">Four tabbed sub-sections — <strong>My Properties, Inquiries, Analytics, AI Insights</strong> — organize the dashboard's depth without crowding the interface. The My Properties tab shows active listings with status badges. The Inquiries tab displays an empty state ("No Inquiries Yet") with a clear CTA to open the CRM Dashboard.</p>
+        <p style="font-size:0.97rem; color:var(--gray-600); line-height:1.8;">The <strong>AI Insights tab</strong> offers a one-click portfolio analysis — "Analyze My Portfolio" — that provides personalized recommendations for optimization and growth. This mirrors the AI analysis from the listing flow, creating a consistent AI-assistance thread across the entire product.</p>
+        <div class="crm-metric-row">
+          <div class="crm-metric"><div class="m-val">2</div><div class="m-label">Active Properties</div></div>
+          <div class="crm-metric"><div class="m-val">₹812K</div><div class="m-label">Portfolio Value</div></div>
+          <div class="crm-metric"><div class="m-val gold">₹406K</div><div class="m-label">Avg Property Price</div></div>
+          <div class="crm-metric"><div class="m-val">0%</div><div class="m-label">Conversion Rate</div></div>
+        </div>
+      </div>
+
+      <div class="reveal">
+        <h3 style="font-family:var(--font-display); font-size:1.4rem; font-weight:700; color:var(--gray-900); margin-bottom:16px;">CRM Dashboard</h3>
+        <p style="font-size:0.97rem; color:var(--gray-600); line-height:1.8; margin-bottom:16px;">The dedicated CRM Dashboard is a <strong>full lead management system</strong> integrated directly into the platform. The header metrics show: Total Leads (4), Qualified Leads (1), Closed Deals (0), Pending Tasks (2) — giving agents an immediate pipeline health check.</p>
+        <p style="font-size:0.97rem; color:var(--gray-600); line-height:1.8; margin-bottom:16px;">The <strong>Lead Management table</strong> tracks: Contact (name, email, phone), Status (new → contacted → proposal → qualified), Interest (Buy/Rent/Sell), Budget range, and Location. Four sample leads are shown — Ankit Sharma (Qualified, Buy, Bandra Mumbai), Priya Patel (Contacted, Rent, Bangalore), Rajesh Kumar (Proposal, Sell, Delhi NCR), and Meera Singh (New, Buy, Mumbai).</p>
+        <p style="font-size:0.97rem; color:var(--gray-600); line-height:1.8;"><strong>Task Management</strong> shows prioritized tasks with due dates, assignees, and status badges (Pending / Completed). The Analytics tab surfaces a 25% Conversion Rate and ₹2.5Cr Revenue Generated this quarter — providing business-level ROI visibility.</p>
+        <div style="margin-top:24px; background:var(--white); border:1px solid var(--gray-200); border-radius:12px; overflow:hidden;">
+          <div style="background:var(--teal-dark); padding:12px 20px; font-size:0.78rem; font-weight:600; color:rgba(255,255,255,0.7); letter-spacing:0.06em; text-transform:uppercase;">Lead Pipeline Status</div>
+          <div style="padding:16px 20px; display:flex; flex-direction:column; gap:10px;">
+            <div style="display:flex; align-items:center; justify-content:space-between; font-size:0.85rem;">
+              <span style="color:var(--gray-900);">Ankit Sharma</span>
+              <span style="background:#dcf4e8; color:#1a7a4a; padding:3px 10px; border-radius:20px; font-size:0.72rem; font-weight:600;">Qualified</span>
+            </div>
+            <div style="display:flex; align-items:center; justify-content:space-between; font-size:0.85rem;">
+              <span style="color:var(--gray-900);">Priya Patel</span>
+              <span style="background:#e8f0fe; color:#1a4db8; padding:3px 10px; border-radius:20px; font-size:0.72rem; font-weight:600;">Contacted</span>
+            </div>
+            <div style="display:flex; align-items:center; justify-content:space-between; font-size:0.85rem;">
+              <span style="color:var(--gray-900);">Rajesh Kumar</span>
+              <span style="background:#fff3e0; color:#b06000; padding:3px 10px; border-radius:20px; font-size:0.72rem; font-weight:600;">Proposal</span>
+            </div>
+            <div style="display:flex; align-items:center; justify-content:space-between; font-size:0.85rem;">
+              <span style="color:var(--gray-900);">Meera Singh</span>
+              <span style="background:#f5f5f5; color:#616161; padding:3px 10px; border-radius:20px; font-size:0.72rem; font-weight:600;">New</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── UX PATTERNS ── -->
+<section class="ux-patterns" id="ux">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-tag">05 · UX Patterns</span>
+      <h2 class="section-title">Interaction Design <em>Highlights</em></h2>
+      <p class="section-desc">Key UX patterns that define the RestAltal experience and contribute to its ease-of-use and retention.</p>
+    </div>
+    <div class="patterns-grid">
+      <div class="pattern-card reveal">
+        <div class="pc-icon">🤖</div>
+        <div class="pc-title">AI-Assisted Content Generation</div>
+        <div class="pc-body">The "Generate with AI" button in the listing flow and "Analyze My Property" in the review step reduce cognitive load for sellers. AI drafts property descriptions and provides pricing intelligence, transforming passive form-filling into active co-creation. This is a standout differentiator versus traditional portals.</div>
+      </div>
+      <div class="pattern-card reveal">
+        <div class="pc-icon">🔐</div>
+        <div class="pc-title">Progressive Disclosure & Gating</div>
+        <div class="pc-body">Browse and search are fully public (no login required), maximizing top-of-funnel engagement. Authentication is only required when users take high-intent actions (listing a property), reducing unnecessary friction for the majority of users while protecting seller features.</div>
+      </div>
+      <div class="pattern-card reveal">
+        <div class="pc-icon">📋</div>
+        <div class="pc-title">Multi-Step Wizard with Clear Progress</div>
+        <div class="pc-body">The 4-step listing wizard uses numbered indicators to eliminate "how much longer?" anxiety. Each step is logically grouped (basic → details → media → review), with Previous/Next navigation and a final summary review before publishing — following best-practice form UX for complex submissions.</div>
+      </div>
+      <div class="pattern-card reveal">
+        <div class="pc-icon">🏷️</div>
+        <div class="pc-title">Amenity Tag System</div>
+        <div class="pc-body">Property cards surface 2–3 key feature tags (pool, garden view, panoramic views, smart home) below the standard metrics. This tag-based approach enables rapid lifestyle matching — buyers can visually scan for their must-haves without opening each listing, significantly improving discovery efficiency.</div>
+      </div>
+      <div class="pattern-card reveal">
+        <div class="pc-icon">🔄</div>
+        <div class="pc-title">Persistent Buy/Rent Toggle</div>
+        <div class="pc-body">The Buy/Rent tab toggle appears on both listing pages and individual property cards, acknowledging that many users explore both options simultaneously. This micro-interaction eliminates dead-end navigation, keeping users in flow and surfacing relevant inventory immediately.</div>
+      </div>
+      <div class="pattern-card reveal">
+        <div class="pc-icon">📈</div>
+        <div class="pc-title">Dashboard Empty State Design</div>
+        <div class="pc-body">Empty states (e.g., "No Inquiries Yet – When people inquire about your properties, they'll appear here") are designed with directional CTAs rather than dead-end messages. This maintains momentum for new users who haven't yet received activity, guiding them toward the next productive action.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── INSIGHTS ── -->
+<section class="insights" id="insights" style="background:var(--gray-100);">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-tag">06 · Design Strengths</span>
+      <h2 class="section-title">What <em>Works Well</em></h2>
+      <p class="section-desc">Strategic design decisions that give RestAltal a competitive edge in the real estate marketplace.</p>
+    </div>
+    <div class="insights-grid">
+      <div class="insight-card teal-card reveal">
+        <span class="ic-tag">Strength · 01</span>
+        <div class="ic-title">Cohesive Visual Identity</div>
+        <div class="ic-body">The teal-dominant palette is rare in Indian real estate (dominated by red/orange brands like MagicBricks/99acres), giving RestAltal instant visual differentiation. The consistent use of teal across headers, CTAs, icons, and accents creates a unified, trustworthy identity that users associate with calm authority.</div>
+      </div>
+      <div class="insight-card gray-card reveal">
+        <span class="ic-tag">Strength · 02</span>
+        <div class="ic-title">AI Integration at Every Touchpoint</div>
+        <div class="ic-body">AI is not bolted on — it's woven into the core experience: homepage search, listing description generation, price analysis, portfolio insights. This creates a product narrative of "intelligent assistance" that resonates with tech-forward buyers and sellers, justifying premium positioning.</div>
+      </div>
+      <div class="insight-card gold-card reveal">
+        <span class="ic-tag">Strength · 03</span>
+        <div class="ic-title">Dual-Mode Platform Architecture</div>
+        <div class="ic-body">Serving both end consumers (buy/rent) and professionals (agents via CRM) within a single product is architecturally ambitious. The design successfully separates these experiences through conditional navigation (CRM tab appears only post-login) while sharing a common design language.</div>
+      </div>
+      <div class="insight-card gray-card reveal">
+        <span class="ic-tag">Strength · 04</span>
+        <div class="ic-title">Verified Listings as Trust Signal</div>
+        <div class="ic-body">Prominently calling out "Verified Listings" as a core feature (rather than a footnote) directly addresses the #1 pain point in Indian real estate: fraudulent or inaccurate listings. This turns a compliance requirement into a brand promise.</div>
+      </div>
+      <div class="insight-card teal-card reveal">
+        <span class="ic-tag">Strength · 05</span>
+        <div class="ic-title">Finance Tools Integration</div>
+        <div class="ic-body">Including EMI calculators, loan comparison, and mortgage pre-approval directly in the platform reduces the need for external tools. This increases time-on-site, positions RestAltal as a one-stop platform, and captures users earlier in the financial decision journey.</div>
+      </div>
+      <div class="insight-card gold-card reveal">
+        <span class="ic-tag">Strength · 06</span>
+        <div class="ic-title">CRM + Marketplace Convergence</div>
+        <div class="ic-body">Integrating a full CRM (lead tracking, task management, pipeline analytics) within a consumer marketplace is a bold product strategy. It creates network effects — agents are incentivized to bring their leads onto the platform, increasing supply quality and velocity.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── RECOMMENDATIONS ── -->
+<section class="recommendations" id="recommendations">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-tag">07 · Recommendations</span>
+      <h2 class="section-title">Opportunities for <em>Improvement</em></h2>
+      <p class="section-desc">Constructive observations and actionable suggestions to elevate the RestAltal experience further.</p>
+    </div>
+
+    <div class="reco-grid">
+      <div>
+        <span class="section-tag" style="margin-bottom:16px;">UX & Interaction</span>
+        <div class="reco-list">
+          <div class="reco-item reveal">
+            <div class="reco-num">R·01</div>
+            <div class="reco-body">
+              <h4>Currency Consistency</h4>
+              <p>The platform inconsistently uses ₹ (Indian Rupee) and $ (USD) — the AI Market Analysis screen shows "$0" while the rest of the product uses ₹. For an India-focused platform, all pricing must be standardized in INR with an explicit currency conversion toggle for international users.</p>
+            </div>
+          </div>
+          <div class="reco-item red-border reveal">
+            <div class="reco-num">R·02</div>
+            <div class="reco-body">
+              <h4>Property Card Image Priority</h4>
+              <p>Property cards currently emphasize price and text metadata. Leading with a high-quality property photograph (hero image) would significantly improve click-through rates — visuals are the primary driver of property interest, especially on mobile viewports.</p>
+            </div>
+          </div>
+          <div class="reco-item gold-border reveal">
+            <div class="reco-num">R·03</div>
+            <div class="reco-body">
+              <h4>Map View for Property Discovery</h4>
+              <p>The Buy/Rent listing pages would greatly benefit from a toggleable map view alongside the grid view. Location is the #1 filter criterion in real estate — a spatial view enables neighbourhood exploration that the list view cannot replicate.</p>
+            </div>
+          </div>
+          <div class="reco-item green-border reveal">
+            <div class="reco-num">R·04</div>
+            <div class="reco-body">
+              <h4>Saved Search & Wishlist Feature</h4>
+              <p>There's no visible mechanism for users to save properties or searches. A persistent wishlist / saved search with notification alerts (price drops, new matching listings) would dramatically increase return visits and engagement depth.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <span class="section-tag" style="margin-bottom:16px;">Product & Feature</span>
+        <div class="reco-list">
+          <div class="reco-item gold-border reveal">
+            <div class="reco-num">R·05</div>
+            <div class="reco-body">
+              <h4>AI Price Context in Listing Review</h4>
+              <p>The "AI Price Recommendation" currently shows $0 with a disclaimer that it needs more property details. Triggering AI analysis only after all 4 steps are completed (with actual property data) would produce far more accurate and useful recommendations, avoiding a trust-breaking $0 output.</p>
+            </div>
+          </div>
+          <div class="reco-item reveal">
+            <div class="reco-num">R·06</div>
+            <div class="reco-body">
+              <h4>Mobile-First Optimization</h4>
+              <p>Given that 75%+ of Indian internet users are mobile-first, the sidebar filter layout (optimized for desktop) needs a robust mobile alternative — likely a bottom-sheet filter drawer or a sticky filter bar. The current design doesn't appear to have a dedicated mobile-responsive treatment.</p>
+            </div>
+          </div>
+          <div class="reco-item red-border reveal">
+            <div class="reco-num">R·07</div>
+            <div class="reco-body">
+              <h4>Inquiry & Scheduling Flow</h4>
+              <p>The CRM shows 0 inquiries for the seller dashboard properties. A more prominent "Schedule a Tour" or "Contact Agent" CTA directly on property detail pages (not just in the CRM backend) would bridge the gap between property discovery and agent contact, increasing inquiry velocity.</p>
+            </div>
+          </div>
+          <div class="reco-item green-border reveal">
+            <div class="reco-num">R·08</div>
+            <div class="reco-body">
+              <h4>Onboarding & Persona Selection</h4>
+              <p>New users currently land on a generic homepage. A lightweight onboarding flow ("Are you looking to Buy, Rent, or Sell?") would personalize the experience from the first visit, surfacing relevant content and features for each persona and improving early activation metrics.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CONCLUSION ── -->
+<section style="background:var(--white); padding:100px 40px;">
+  <div class="container">
+    <div style="max-width:800px; margin:0 auto; text-align:center;" class="reveal">
+      <span class="section-tag" style="text-align:center; display:block;">08 · Conclusion</span>
+      <h2 class="section-title" style="text-align:center;">A Platform Built for <em>Tomorrow's</em> Real Estate Market</h2>
+      <p style="font-size:1.05rem; color:var(--gray-600); line-height:1.85; margin-top:24px; margin-bottom:24px;">RestAltal is an ambitious and well-executed real estate platform that intelligently combines a consumer-facing property marketplace with a professional-grade CRM suite. Its visual design language — anchored in a trust-building teal palette and clean, modern typography — stands apart from competitors and communicates credibility from the first scroll.</p>
+      <p style="font-size:1.05rem; color:var(--gray-600); line-height:1.85; margin-bottom:40px;">The integration of AI at multiple touchpoints — search, listing creation, price analysis, portfolio insights — is the platform's most significant strategic asset. This isn't AI as a marketing buzzword; it's AI embedded into the product workflows where it genuinely reduces friction and adds intelligence. With refinements to currency consistency, mobile responsiveness, and the property discovery experience (map view, saved searches), RestAltal has the foundations of a truly world-class real estate technology platform.</p>
+      <div style="display:flex; justify-content:center; gap:40px; flex-wrap:wrap;">
+        <div style="text-align:center;">
+          <div style="font-family:var(--font-display); font-size:2.5rem; font-weight:900; color:var(--teal-mid);">9/10</div>
+          <div style="font-size:0.75rem; color:var(--gray-400); letter-spacing:0.1em; text-transform:uppercase; margin-top:4px;">Visual Design</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-family:var(--font-display); font-size:2.5rem; font-weight:900; color:var(--teal-mid);">8/10</div>
+          <div style="font-size:0.75rem; color:var(--gray-400); letter-spacing:0.1em; text-transform:uppercase; margin-top:4px;">User Experience</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-family:var(--font-display); font-size:2.5rem; font-weight:900; color:var(--gold);">9/10</div>
+          <div style="font-size:0.75rem; color:var(--gray-400); letter-spacing:0.1em; text-transform:uppercase; margin-top:4px;">AI Integration</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-family:var(--font-display); font-size:2.5rem; font-weight:900; color:var(--teal-mid);">8/10</div>
+          <div style="font-size:0.75rem; color:var(--gray-400); letter-spacing:0.1em; text-transform:uppercase; margin-top:4px;">Product Strategy</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-family:var(--font-display); font-size:2.5rem; font-weight:900; color:var(--green-soft);">7/10</div>
+          <div style="font-size:0.75rem; color:var(--gray-400); letter-spacing:0.1em; text-transform:uppercase; margin-top:4px;">Mobile Readiness</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-logo">RestAltal</div>
+  <div class="footer-tagline">India's Most Trusted AI-Powered Real Estate Platform</div>
+  <div class="footer-divider"></div>
+  <div class="footer-credit">UI/UX Case Study · 2024 · Designed & Analyzed from Product Screens · hello@restaltal.com · +91 98765 43210</div>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add('visible');
+        }, 60);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  reveals.forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
